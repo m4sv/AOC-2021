@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AOC_2021
@@ -8,7 +9,7 @@ namespace AOC_2021
     {
         static List<int> GetInput()
         {
-            var lines = System.IO.File.ReadAllLines("inputs/day7.txt").ToList();
+            var lines = System.IO.File.ReadAllLines("inputs/day7.danny.txt").ToList();
             var result = lines[0].Split(',').Select(x => int.Parse(x)).ToList();
             return result;
         }
@@ -40,13 +41,36 @@ namespace AOC_2021
         public static string Part2()
         {
             var input = GetInput();
-            var floor = Math.Floor(input.Average());
-            var ciel = Math.Ceiling(input.Average());
-            var floorCost = CalculateCrabCost(floor, input);
-            var cielCost = CalculateCrabCost(ciel, input);
+            var average = input.Average();
+            var floor = Math.Floor(average);
+            var ciel = Math.Ceiling(average);
+            var lowest = 0D;
+            
+            if (floor != ciel)
+            {
+                var floorCost = CalculateCrabCost(floor, input);
+                var cielCost = CalculateCrabCost(ciel, input);
+                lowest = floorCost > cielCost ? cielCost : floorCost;
+            }
+            else
+            {
+                lowest = CalculateCrabCost(floor, input);
+            }
 
-            var lowest = floorCost > cielCost ? cielCost : floorCost;
+            return $"D7P2: Lowest Fuel consumption {lowest}";
+        }
 
+        public static string Part2_Original()
+        {
+            double lowest = double.MaxValue;
+            var input = GetInput();
+            var max = input.Max();
+
+            for (var i = 1; i <= max; i++)
+            {
+                var cost = CalculateCrabCost(i, input);
+                if (cost < lowest) lowest = cost;
+            }
             return $"D7P2: Lowest Fuel consumption {lowest}";
         }
 
