@@ -8,7 +8,7 @@ namespace AOC_2021
     {
         static List<int> GetInput()
         {
-            var lines = System.IO.File.ReadAllLines("inputs/day7.danny.txt").ToList();
+            var lines = System.IO.File.ReadAllLines("inputs/day7.txt").ToList();
             var result = lines[0].Split(',').Select(x => int.Parse(x)).ToList();
             return result;
         }
@@ -40,11 +40,14 @@ namespace AOC_2021
         public static string Part2()
         {
             var input = GetInput();
-            var average = Math.Floor(input.Average());
-            var crabCost = CalculateCrabCost(average, input);
+            var floor = Math.Floor(input.Average());
+            var ciel = Math.Ceiling(input.Average());
+            var floorCost = CalculateCrabCost(floor, input);
+            var cielCost = CalculateCrabCost(ciel, input);
 
-            Console.WriteLine(average);
-            return $"D7P2: Lowest Fuel consumption {crabCost}";
+            var lowest = floorCost > cielCost ? cielCost : floorCost;
+
+            return $"D7P2: Lowest Fuel consumption {lowest}";
         }
 
         static double CalculateCrabCost(double position, List<int> crabList)
