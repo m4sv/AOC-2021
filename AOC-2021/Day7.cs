@@ -8,7 +8,7 @@ namespace AOC_2021
     {
         static List<int> GetInput()
         {
-            var lines = System.IO.File.ReadAllLines("inputs/day7.txt").ToList();
+            var lines = System.IO.File.ReadAllLines("inputs/day7.danny.txt").ToList();
             var result = lines[0].Split(',').Select(x => int.Parse(x)).ToList();
             return result;
         }
@@ -39,16 +39,12 @@ namespace AOC_2021
 
         public static string Part2()
         {
-            double lowest = double.MaxValue;
             var input = GetInput();
-            var max = input.Max();
+            var average = Math.Floor(input.Average());
+            var crabCost = CalculateCrabCost(average, input);
 
-            for(var i = 1; i<= max; i++)
-            {
-                var cost = CalculateCrabCost(i, input);
-                if (cost < lowest) lowest = cost;
-            }
-            return $"D7P2: Lowest Fuel consumption {lowest}";
+            Console.WriteLine(average);
+            return $"D7P2: Lowest Fuel consumption {crabCost}";
         }
 
         static double CalculateCrabCost(double position, List<int> crabList)
